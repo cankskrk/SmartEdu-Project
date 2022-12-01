@@ -14,9 +14,9 @@ app.use(express.static('public'));
 // Routes
 app.use('/', pageRoute);
 app.use('/about', pageRoute);
-app.get('/courses', pageController.getCoursesPage);
-app.get('/dashboard', pageController.getDashboardPage);
-app.get('/contact', pageController.getContactPage);
+app.use('/courses', pageRoute);
+app.use('/dashboard', pageRoute);
+app.use('/contact', pageRoute);
 
 // Listen PORT
 app.listen(PORT, () => {

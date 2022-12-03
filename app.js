@@ -30,9 +30,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/', pageRoute);
-app.use('/about', pageRoute);
-app.use('/dashboard', pageRoute);
-app.use('/contact', pageRoute);
 //!---------------------------
 app.use('/courses', courseRoute);
 

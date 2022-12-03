@@ -12,13 +12,6 @@ exports.getAboutPage = (req, res) => {
   });
 };
 
-// Get Courses Page
-exports.getCoursesPage = (req, res) => {
-  res.status(200).render('courses', {
-    page_name: 'courses',
-  });
-};
-
 // Get Dashboard Page
 exports.getDashboardPage = (req, res) => {
   res.status(200).render('dashboard', {

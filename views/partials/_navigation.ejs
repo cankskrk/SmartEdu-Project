@@ -40,18 +40,14 @@
           <li>
             <a
               class="hover-btn-new log orange mr-2"
-              href="#"
-              data-toggle="modal"
-              data-target="#login"
+              href="/login"
               ><span><i class="fa fa-sign-in" aria-hidden="true"></i></span
             ></a>
           </li>
           <li>
             <a
-              class="hover-btn-new log orange"
-              href="#"
-              data-toggle="modal"
-              data-target="#signup"
+              class="hover-btn-new log <%= page_name === 'register' && 'orange' %>"
+              href="/register"
               ><span><i class="fa fa-user-plus" aria-hidden="true"></i></span
             ></a>
           </li>

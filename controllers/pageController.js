@@ -13,13 +13,6 @@ exports.getAboutPage = (req, res) => {
   });
 };
 
-// Get Dashboard Page
-exports.getDashboardPage = (req, res) => {
-  res.status(200).render('dashboard', {
-    page_name: 'dashboard',
-  });
-};
-
 // Get Contact Page
 exports.getContactPage = (req, res) => {
   res.status(200).render('contact', {
@@ -27,12 +20,14 @@ exports.getContactPage = (req, res) => {
   });
 };
 
+// Get Register Page
 exports.getRegisterPage = (req, res) => {
   res.status(200).render('register', {
     page_name: 'register',
   });
 };
 
+// Get Login Page
 exports.getLoginPage = (req, res) => {
   res.status(200).render('login', {
     page_name: 'login',

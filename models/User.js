@@ -16,6 +16,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ['Student', 'Teacher', 'Admin'], // Alabilecegi degerleri yazdik
+    default: 'Student', // Varsayilan olarak ogrenci degerini alir
+  },
 });
 
 // Kaydetmeden once kriptoluyoruz

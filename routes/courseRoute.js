@@ -9,6 +9,6 @@ router.route('/').get(courseController.getAllCourses);
 router.route('/:slug').get(courseController.getCourse);
 router
   .route('/')
-  .post(roleMiddleware(['Teacher', 'Admin']), courseController.createCourse);
+  .post(roleMiddleware(['Teacher', 'Admin']), courseController.createCourse); // Eger kullanici ogrenci ise kurs yaratma fonksiyonunu kullanamaz
 
 module.exports = router;

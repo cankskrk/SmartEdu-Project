@@ -3,12 +3,8 @@ const Category = require('../models/Category');
 
 exports.createCourse = async (req, res) => {
   try {
-    const course = await Course.create(req.body);
-
-    res.status(201).json({
-      status: 'success',
-      course, // Yazilan kursu json olarak gonderdik!
-    });
+    await Course.create(req.body);
+    res.status(201).redirect('/courses');
   } catch {
     res.status(400).json({
       status: 'fail',

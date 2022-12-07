@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Category = require('../models/Category');
 const bcrytp = require('bcrypt');
 
 exports.createUser = async (req, res) => {
@@ -22,6 +23,7 @@ exports.loginUser = async (req, res) => {
           if (same) {
             // User Session
             req.session.userID = user._id;
+            req.session.userRole = user.role;
             res.status(200).redirect('/users/dashboard');
           } else {
             res.status(404).send('Sifre ya da E-posta HATALI!');
@@ -44,10 +46,12 @@ exports.logoutUser = (req, res) => {
 exports.getDashboardPage = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.session.userID });
+    const categories = await Category.find();
 
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
       user,
+      categories,
     });
   } catch {
     res.status(404).send('Sifre ya da E-posta HATALI!');

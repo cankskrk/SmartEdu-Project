@@ -23,7 +23,7 @@ exports.getAllCourses = async (req, res) => {
       filter = { category: category._id };
     }
     //!---------------------------
-    const courses = await Course.find(filter);
+    const courses = await Course.find(filter).sort('-createdAt'); // En son olusturulan ilk basta gozukecek.
     const categories = await Category.find(); // Kategori isimlerini aldik ve menuye yazdirmak icin render ettik.
 
     res.status(200).render('courses', {

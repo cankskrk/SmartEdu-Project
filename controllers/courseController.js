@@ -5,9 +5,9 @@ exports.createCourse = async (req, res) => {
   try {
     await Course.create(req.body);
     res.status(201).redirect('/courses');
-  } catch {
+  } catch (err) {
     res.status(400).json({
-      status: 'fail',
+      err,
     });
   }
 };

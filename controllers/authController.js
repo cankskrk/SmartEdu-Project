@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Category = require('../models/Category');
+const Course = require('../models/Course');
 const bcrytp = require('bcrypt');
 
 exports.createUser = async (req, res) => {
@@ -46,12 +47,16 @@ exports.logoutUser = (req, res) => {
 exports.getDashboardPage = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.session.userID });
-    const categories = await Category.find();
+    const categories = await Category.find(); // form icin kategorileri cikarttik.
+    const courses = await Course.find({ user: req.session.userID }).sort(
+      '-createdAt'
+    );
 
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
       user,
       categories,
+      courses,
     });
   } catch {
     res.status(404).send('Sifre ya da E-posta HATALI!');

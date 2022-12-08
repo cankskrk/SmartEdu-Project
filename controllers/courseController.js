@@ -24,7 +24,9 @@ exports.getAllCourses = async (req, res) => {
       filter = { category: category._id };
     }
     //!---------------------------
-    const courses = await Course.find(filter).sort('-createdAt'); // En son olusturulan ilk basta gozukecek.
+    const courses = await Course.find(filter)
+      .sort('-createdAt')
+      .populate('user'); // En son olusturulan ilk basta gozukecek.
     const categories = await Category.find(); // Kategori isimlerini aldik ve menuye yazdirmak icin render ettik.
 
     res.status(200).render('courses', {
@@ -51,6 +53,20 @@ exports.getCourse = async (req, res) => {
   } catch {
     res.status(400).json({
       status: 'fail',
+    });
+  }
+};
+
+exports.enrollCourse = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userID);
+    user.courses.push({ _id: req.body.course_id });
+    await user.save();
+
+    res.status(200).redirect('/users/dashboard');
+  } catch (err) {
+    res.status(400).json({
+      err,
     });
   }
 };

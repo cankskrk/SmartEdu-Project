@@ -21,6 +21,12 @@ const UserSchema = new Schema({
     enum: ['Student', 'Teacher', 'Admin'], // Alabilecegi degerleri yazdik
     default: 'Student', // Varsayilan olarak ogrenci degerini alir
   },
+  courses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course',
+    },
+  ],
 });
 
 // Kaydetmeden once kriptoluyoruz

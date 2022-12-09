@@ -36,7 +36,11 @@
 									</div>
 									<div class="course-desc">
 										<p><%= user.courses[i].description %> </p>
-									</div>
+										<form action="/courses/release" method="post">
+											<input type="hidden" name="course_id" value="<%= user.courses[i]._id %>"></input>
+											<button class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
+										</form>
+									</div>	
 								</div>
 							</div>
 						</div><!-- end col -->
@@ -85,11 +89,6 @@
 									<div class="course-desc">
 										<p><%= courses[i].description %> </p>
 									</div>
-									<div>
-										<form action="/" method="post"></form>
-										<input type="hidden" name="course_id" value="<%= course[i]._id %>"></input>
-										<button class="btn btn-lg btn-warning text-white"><span>ENROLL</span></button>
-									</div>		
 								</div>
 							</div>
 						</div><!-- end col -->

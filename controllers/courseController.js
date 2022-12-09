@@ -74,11 +74,13 @@ exports.enrollCourse = async (req, res) => {
 
 exports.releaseCourse = async (req, res) => {
   try {
-    await User.findByIdAndRemove(req.body.course_id).save();
-    res.status(202).res.redirect('/users/dashboard');
-  } catch (err) {
+    const user = await User.findById(req.session.userID); // Anlik kullanicinin verilerini aldik
+    user.courses.pull({ _id: req.body.course_id });
+    await user.save();
+    res.status(202).redirect('/users/dashboard');
+  } catch {
     res.status(400).json({
-      err,
+      status: 'fail',
     });
   }
 };

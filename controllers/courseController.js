@@ -44,12 +44,13 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourse = async (req, res) => {
   try {
     const categories = await Category.find();
+    const user = await User.findById(req.session.userID);
     const course = await Course.findOne({ slug: req.params.slug }).populate(
       'user'
     );
     res
       .status(200)
-      .render('course', { page_name: 'courses', course, categories });
+      .render('course', { page_name: 'courses', course, categories, user });
   } catch {
     res.status(400).json({
       status: 'fail',
@@ -64,6 +65,17 @@ exports.enrollCourse = async (req, res) => {
     await user.save();
 
     res.status(200).redirect('/users/dashboard');
+  } catch (err) {
+    res.status(400).json({
+      err,
+    });
+  }
+};
+
+exports.releaseCourse = async (req, res) => {
+  try {
+    await User.findByIdAndRemove(req.body.course_id).save();
+    res.status(202).res.redirect('/users/dashboard');
   } catch (err) {
     res.status(400).json({
       err,

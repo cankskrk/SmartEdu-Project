@@ -16,15 +16,31 @@ exports.createCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
   try {
     const categorySlug = req.query.categories;
+    const query = req.query.search;
     const category = await Category.findOne({ slug: categorySlug });
     //!---------------------------
     let filter = {};
+
     if (categorySlug) {
       // Eger linkte query varsa yani menuden bir bolum secilmisse secilen query ile tum kurslar icerisinde arama yapacagiz.
       filter = { category: category._id };
     }
+
+    if (query) {
+      // Isme gore
+      filter = { name: query };
+    }
+
+    if (!query && !categorySlug) {
+      (filter.name = ''), (filter.category = null);
+    }
     //!---------------------------
-    const courses = await Course.find(filter)
+    const courses = await Course.find({
+      $or: [
+        { name: { $regex: '.*' + filter.name + '.*', $options: 'i' } },
+        { category: filter.category },
+      ],
+    })
       .sort('-createdAt')
       .populate('user'); // En son olusturulan ilk basta gozukecek.
     const categories = await Category.find(); // Kategori isimlerini aldik ve menuye yazdirmak icin render ettik.

@@ -77,6 +77,7 @@ exports.releaseCourse = async (req, res) => {
     const user = await User.findById(req.session.userID); // Anlik kullanicinin verilerini aldik
     user.courses.pull({ _id: req.body.course_id });
     await user.save();
+
     res.status(202).redirect('/users/dashboard');
   } catch {
     res.status(400).json({

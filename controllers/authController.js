@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const Category = require('../models/Category');
 const Course = require('../models/Course');
-const bcrytp = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 exports.createUser = async (req, res) => {
   try {
@@ -17,21 +17,18 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    await User.findOne({ email }, (err, user) => {
+    await User.findOne({ email: req.body.email }, (err, user) => {
       if (user) {
-        bcrytp.compare(password, user.password, (err, same) => {
-          if (same) {
-            // User Session
-            req.session.userID = user._id;
-            req.session.userRole = user.role;
-            res.status(200).redirect('/users/dashboard');
-          } else {
-            res.status(404).send('Sifre ya da E-posta HATALI!');
-          }
-        });
+        if (bcrypt.compare(req.body.password, user.password)) {
+          // User Session
+          req.session.userID = user._id;
+          req.session.userRole = user.role;
+          res.status(200).redirect('/users/dashboard');
+        } else {
+          res.status(400).redirect('/login');
+        }
       } else {
-        res.status(404).send('Sifre ya da E-posta HATALI!');
+        res.status(404).send('Kullanici Bulunamadi!');
       }
     });
   } catch {}

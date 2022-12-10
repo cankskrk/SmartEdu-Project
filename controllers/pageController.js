@@ -19,6 +19,12 @@ exports.getContactPage = (req, res) => {
   });
 };
 
+// Send Email
+exports.sendEmail = (req, res) => {
+  console.log(req.body);
+  res.redirect('/contact');
+};
+
 // Get Register Page
 exports.getRegisterPage = (req, res) => {
   res.status(200).render('register', {

@@ -47,7 +47,7 @@ exports.sendEmail = async (req, res) => {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: 'bar@example.com, baz@example.com', // list of receivers
+    to: 'bar@example.com', // list of receivers
     subject: 'Hello ✔ SmartEdu Contact Form New Message', // Subject line
     html: outputMessage, // html body
   });

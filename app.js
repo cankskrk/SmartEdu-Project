@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo'); // Oturum acmis kullanicinin oturumdan cikmamasini saglar
+const flash = require('connect-flash');
 
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -40,9 +41,18 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: 'mongodb://127.0.0.1:27017/smartedu-db',
+      secret: 'secret',
+      cookie: { maxAge: 60000 },
     }),
   })
 );
+app.use(flash());
+
+// Template'te kullanmak icin
+app.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 // Routes
 app.use('*', (req, res, next) => {

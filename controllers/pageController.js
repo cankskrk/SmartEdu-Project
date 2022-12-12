@@ -64,7 +64,8 @@ exports.sendEmail = async (req, res) => {
 
     res.status(200).redirect('/contact');
   } catch (err) {
-    req.flash('Error', `Something happend! ${err}`);
+    // req.flash('Error', `Something happend! ${err}`);
+    req.flash('Error', 'Something happend!');
 
     res.status(200).redirect('/contact');
   }

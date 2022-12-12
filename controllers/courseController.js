@@ -5,8 +5,10 @@ const User = require('../models/User');
 exports.createCourse = async (req, res) => {
   try {
     await Course.create({ ...req.body, user: req.session.userID });
+    req.flash('Success', `${req.body.name} has been created!`);
     res.status(201).redirect('/courses');
   } catch (err) {
+    req.flash('Error', `Something happened!`);
     res.status(400).json({
       err,
     });

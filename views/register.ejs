@@ -13,7 +13,18 @@
                         <form action="/users/signup" name="registerForm" method="post">
                             <div class="row row-fluid">
 							    <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                    <% if(flashMessages) { %>
+                                        <% if (flashMessages.Success) { %>
+                                            <div class="alert alert-success">
+                                                <%= flashMessages.Success %> 
+                                            </div>
+                                        <% } else if (flashMessages.Error) { %>
+                                            <div class="alert alert-danger">
+                                                <%= flashMessages.Error %> 
+                                            </div>
+                                        <% } %>   
+                                    <% } %>  
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" novalidate>
                                 </div>
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Email">

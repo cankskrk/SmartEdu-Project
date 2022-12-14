@@ -2,16 +2,20 @@ const User = require('../models/User');
 const Category = require('../models/Category');
 const Course = require('../models/Course');
 const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
 
     res.status(201).redirect('/login');
-  } catch {
-    res.status(404).json({
-      status: 'fail',
-    });
+  } catch (error) {
+    const errors = validationResult(req);
+    for (let i = 0; i < errors.array().length; i++) {
+      // Butun hatalari gosterecek!
+      req.flash('Error', `${errors.array()[i].msg}`);
+    }
+    res.status(400).redirect('/register');
   }
 };
 
@@ -19,16 +23,20 @@ exports.loginUser = async (req, res) => {
   try {
     await User.findOne({ email: req.body.email }, (err, user) => {
       if (user) {
-        if (bcrypt.compare(req.body.password, user.password)) {
-          // User Session
-          req.session.userID = user._id;
-          req.session.userRole = user.role;
-          res.status(200).redirect('/users/dashboard');
-        } else {
-          res.status(400).redirect('/login');
-        }
+        bcrypt.compare(req.body.password, user.password, (err, same) => {
+          if (same) {
+            // User Session
+            req.session.userID = user._id;
+            req.session.userRole = user.role;
+            res.status(200).redirect('/users/dashboard');
+          } else {
+            req.flash('Error', `Your password is not correct!`);
+            res.status(400).redirect('/login');
+          }
+        });
       } else {
-        res.status(404).send('Kullanici Bulunamadi!');
+        req.flash('Error', `User is not exist!`);
+        res.status(400).redirect('/login');
       }
     });
   } catch {}

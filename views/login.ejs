@@ -13,6 +13,17 @@
                         <form action="/users/login" method="post">
                             <div class="row row-fluid">
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                    <% if(flashMessages) { %>
+                                        <% if (flashMessages.Success) { %>
+                                            <div class="alert alert-success">
+                                                <%= flashMessages.Success %> 
+                                            </div>
+                                        <% } else if (flashMessages.Error) { %>
+                                            <div class="alert alert-danger">
+                                                <%= flashMessages.Error %> 
+                                            </div>
+                                        <% } %>   
+                                    <% } %>
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Email">
                                 </div>
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo'); // Oturum acmis kullanicinin oturumdan cikmamasini saglar
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -47,6 +48,7 @@ app.use(
   })
 );
 app.use(flash());
+app.use(methodOverride('_method', { methods: ['GET', 'POST'] }));
 
 // Template'te kullanmak icin
 app.use((req, res, next) => {

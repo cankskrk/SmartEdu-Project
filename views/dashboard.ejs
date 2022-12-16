@@ -35,7 +35,7 @@
 										<h2><a href="/courses/<%= user.courses[i].slug %> " title=""><%= user.courses[i].name %> </a></h2>
 									</div>
 									<div class="course-desc">
-										<p><%= user.courses[i].description.substring(0, 100) + "..." %> </p>
+										<p><%= user.courses[i].description.substring(0, 50) + "..." %> </p>
 										<form action="/courses/release" method="post">
 											<input type="hidden" name="course_id" value="<%= user.courses[i]._id %>"></input>
 											<button class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
@@ -99,17 +99,60 @@
 										<h2><a href="/courses/<%= courses[i].slug %>"><%= courses[i].name %></a></h2>
 									</div>
 									<div class="course-desc">
-										<p><%= courses[i].description.substring(0, 100) + "..." %> </p>
+										<p><%= courses[i].description.substring(0, 50) + "..." %> </p>
 									</div>
 									<div class="clearfix">
 										<ul style="list-style-type: none;">
 											<li class="m-2" style="float: right"><a href="/courses/<%= courses[i].slug %>?_method=DELETE" class="btn btn-danger rounded-0 text-white" onclick="return confirm('ARE YOU SURE?')"><span>DELETE</span></a></li>
-											<li class="m-2" style="float: right"><a href="/" class="btn btn-primary rounded-0 text-white"><span>UPDATE</span></a></li>
+											<li class="m-2" style="float: right"><a data-toggle="modal" data-target="#updateCourse<%= courses[i]._id %>" class="btn btn-primary rounded-0 text-white"><span>UPDATE</span></a></li>
 										</ul>
 									</div>
 								</div>
 							</div>
 						</div><!-- end col -->
+						<div class="modal fade" id="updateCourse<%= courses[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-body customer-box">
+										<div class="tab-content">
+											<div class="tab-pane active" id="Login">
+												<form action="/courses/<%= courses[i].slug %>?_method=PUT" method="post" class="form-horizontal">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<input type="text" name="name" class="form-control" placeholder="Course Name" value="<%= courses[i].name %> ">
+														</div>
+													</div>
+													<div class="form-group">
+														<div class="col-sm-12">
+															<textarea class="form-control" name="description" rows="8" placeholder="Course Description"><%= courses[i].description %> </textarea>
+														</div>
+													</div>
+													<div class="form-group">
+														<div class="col-sm-12">
+															<select name="category" class="form-control">
+																<% for(let i = 0; i < categories.length; i++) { %> 
+																	<option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+																<% } %> 
+															</select>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-10">
+															<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+																Submit
+															</button>
+															<button type="submit" class="btn btn-light btn-radius btn-brd grd1" data-dismiss="modal" aria-hidden="true">
+																Cancel
+															</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					<% } %> 
 				</div><!-- end row -->
 			</div><!-- end container -->
@@ -165,3 +208,4 @@
 <% } %> 
 
 <%- include("partials/_footer") %>
+

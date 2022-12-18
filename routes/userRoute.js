@@ -2,6 +2,7 @@ const express = require('express');
 const { body } = require('express-validator');
 
 const authController = require('../controllers/authController');
+const { deleteUser } = require('../middlewares/roleMiddleware');
 const User = require('../models/User');
 const router = express.Router();
 
@@ -35,5 +36,6 @@ router
   );
 router.route('/logout').get(authController.logoutUser);
 router.route('/dashboard').get(authController.getDashboardPage);
+router.route('/:id').delete(deleteUser('Admin'), authController.deleteUser);
 
 module.exports = router;

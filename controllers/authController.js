@@ -58,14 +58,29 @@ exports.getDashboardPage = async (req, res) => {
     const courses = await Course.find({ user: req.session.userID }).sort(
       '-createdAt'
     );
+    const users = await User.find();
 
     res.status(200).render('dashboard', {
       page_name: 'dashboard',
       user,
       categories,
       courses,
+      users,
     });
   } catch {
     res.status(404).send('Sifre ya da E-posta HATALI!');
+  }
+};
+
+// Delete A User
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id);
+    await Course.deleteMany({ user: req.params.id }); // Kullanicinin olusturdugu kurslari da kaldiriyoruz.
+    req.flash('Success', `${user.name} has been removed succcessfully!`);
+    res.status(200).redirect('/users/dashboard');
+  } catch (error) {
+    req.flash('Error', `Something happened!`);
+    res.status(400).redirect('/users/dashboard');
   }
 };

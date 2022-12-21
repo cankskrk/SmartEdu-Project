@@ -15,7 +15,7 @@ exports.deleteUser = (role) => {
     if (userRole === role) {
       next();
     } else {
-      return res.status(401).send('MOTHERFUCKER!');
+      return res.status(401).send('Something Wrong!');
     }
   };
 };
